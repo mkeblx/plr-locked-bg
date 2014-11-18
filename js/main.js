@@ -20,6 +20,9 @@ var has = {
 };
 
 
+var bgTop = true; // background on top
+
+
 window.addEventListener('load', load);
 
 function load() {
@@ -194,6 +197,10 @@ function keyPressed (e) {
 		case 221: // ]
 			vrEffect.setRenderScale(vrEffect.getRenderScale()*1.1);
 			break;
+
+		case 32: // space
+			bgTop = !bgTop;
+			break;
 	}
 
 }
@@ -223,10 +230,10 @@ function animate(t) {
 
 function render(dt) {
 	renderer.clear();
-	vrEffect.render(scene, camera);
+
+	(bgTop) ? vrEffect.render(scene, camera) : vrEffect.render(scene2, camera2);
+
 	renderer.clearDepth();
-	vrEffect.render(scene2, camera2);
+
+	(bgTop) ? vrEffect.render(scene2, camera2) : vrEffect.render(scene, camera);
 }
-
-
-
