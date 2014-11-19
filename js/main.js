@@ -113,9 +113,85 @@ function setupBackground() {
 		color: 0xffff00, wireframe: true,
 		transparent: true, opacity: 0.3 });
 	grid = new THREE.Mesh(geo, mat);
-	//grid.position.fromArray([0,0,-100]);
 
-	scene2.add(grid);
+	//scene2.add(grid);
+
+
+	var container = new THREE.Group();
+
+	var n = 100;
+	var s = n*5;
+
+	var positions = [
+		[0,s,0],
+		[0,-s,0],
+		[s,0,0],
+		[-s,0,0],
+		[0,0,s],
+		[0,0,-s]
+	];
+	var t = Math.PI/2;
+	var rotations = [
+		[0,0,0],
+		[0,0,0],
+		[0,0,-t],
+		[0,0,t],
+		[t,0,0],
+		[-t,0,0]
+	];
+
+	var g = makeGrid({
+		size: n,
+		cols: 10,
+		rows: 10,
+		color: 0xffff00,
+		opacity: 0.5,
+		width: 3
+	});
+
+	for (var i = 0; i < 6; i++) {
+		var c = g.clone();
+
+		c.position.fromArray(positions[i]);
+		c.rotation.fromArray(rotations[i]);
+		container.add(c);
+	}
+
+	scene2.add(container);
+
+}
+
+function makeGrid(options) {
+	var obj = new THREE.Object3D();
+
+	var gridSize = options.size;
+	var tW = gridSize * options.cols;
+	var tH = gridSize * options.rows;
+
+	var size = options.rows/2*gridSize, step = gridSize;
+
+	var geometry = new THREE.Geometry();
+
+	for ( var i = - size; i <= size; i += step ) {
+		geometry.vertices.push( new THREE.Vector3( - size, 0, i ) );
+		geometry.vertices.push( new THREE.Vector3(   size, 0, i ) );
+
+		geometry.vertices.push( new THREE.Vector3( i, 0, - size ) );
+		geometry.vertices.push( new THREE.Vector3( i, 0,   size ) );
+	}
+
+	var material = new THREE.LineBasicMaterial({
+		color: options.color,
+		linewidth: options.width,
+		transparent: true,
+		opacity: options.opacity });
+
+	var line = new THREE.Line(geometry, material);
+	line.mode = THREE.LinePieces;
+
+	obj.add(line);
+
+	return obj;
 }
 
 function setupLights() {
