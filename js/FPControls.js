@@ -100,7 +100,7 @@ THREE.FPControls = function ( camera ) {
 	this.isOnObject = function ( boolean ) {
 
 		isOnObject = boolean;
-		canJump = boolean;
+		//canJump = boolean;
 
 	};
 
@@ -158,7 +158,7 @@ THREE.FPControls = function ( camera ) {
 			velocity.y = 0;
 			yawObject.position.y = 10;
 
-			canJump = true;
+			//canJump = true;
 
 		}
 

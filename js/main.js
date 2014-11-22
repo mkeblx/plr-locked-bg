@@ -112,7 +112,7 @@ function setupBackground() {
 	var mat = new THREE.MeshBasicMaterial({
 		color: 0xffff00, wireframe: true,
 		transparent: true, opacity: 0.3 });
-	grid = new THREE.Mesh(geo, mat);
+	//grid = new THREE.Mesh(geo, mat);
 
 	//scene2.add(grid);
 
@@ -159,6 +159,7 @@ function setupBackground() {
 
 	scene2.add(container);
 
+	grid = container;
 }
 
 function makeGrid(options) {
@@ -257,7 +258,7 @@ function onWindowResize() {
 	//renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function keyPressed (e) {
+function keyPressed(e) {
 
 	console.log(e.keyCode);
 	switch (e.keyCode) {
@@ -277,9 +278,23 @@ function keyPressed (e) {
 		case 32: // space
 			bgTop = !bgTop;
 			break;
+
+		case 188: // <
+			scaleGrid(1/1.1);
+			break;
+		case 190: // >
+			scaleGrid(1.1);
+			break;
 	}
 
 }
+
+function scaleGrid(factor) {
+	var scale = grid.scale.x;
+	var newScale = scale*factor;
+	grid.scale.set(newScale,newScale,newScale);
+}
+
 
 function animate(t) {
 	requestAnimationFrame(animate);
