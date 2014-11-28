@@ -27,7 +27,7 @@ THREE.VREffect = function ( renderer, done ) {
 	var cameraRight = new THREE.PerspectiveCamera();
 
 	this._renderer = renderer;
-	this._renderScale = 1;
+	this._renderScale = 1.3;
 
 	this._init = function() {
 		var self = this;

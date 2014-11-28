@@ -22,6 +22,8 @@ var has = {
 
 var bgTop = true; // background on top
 
+var locked = true;
+var camera3;
 
 window.addEventListener('load', load);
 
@@ -34,8 +36,11 @@ function load() {
 function init() {
 
 
-	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3000);
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 4000);
 	camera2 = camera.clone();
+	camera2.position.y = 10;
+
+	camera3 = camera2.clone();
 
 	fullScreenButton = document.querySelector('#vr-button');
 
@@ -285,7 +290,17 @@ function keyPressed(e) {
 		case 190: // >
 			scaleGrid(1.1);
 			break;
+
+		case 75: // K 
+			toggleLocked();
+			break;
 	}
+
+}
+
+function toggleLocked() {
+	locked = !locked;
+
 
 }
 
@@ -310,6 +325,9 @@ function animate(t) {
 		var pos = new THREE.Vector3().copy(vrPos).multiplyScalar(s);
 
 		camera.position.copy(pos);
+
+
+		camera3.quaternion.copy(vrState.orientation);
 	}
 
 	controls.update(dt);
@@ -322,9 +340,11 @@ function animate(t) {
 function render(dt) {
 	renderer.clear();
 
-	(bgTop) ? vrEffect.render(scene, camera) : vrEffect.render(scene2, camera2);
+	var bgCam = (locked) ?  camera2 : camera3;
+
+	(bgTop) ? vrEffect.render(scene, camera) : vrEffect.render(scene2, bgCam);
 
 	renderer.clearDepth();
 
-	(bgTop) ? vrEffect.render(scene2, camera2) : vrEffect.render(scene, camera);
+	(bgTop) ? vrEffect.render(scene2, bgCam) : vrEffect.render(scene, camera);
 }
