@@ -36,9 +36,8 @@ function load() {
 function init() {
 
 
-	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 4000);
+	camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
 	camera2 = camera.clone();
-	camera2.position.y = 10;
 
 	camera3 = camera2.clone();
 
@@ -57,7 +56,7 @@ function init() {
 
 function setupScene() {
 	scene = new THREE.Scene();
-	scene.fog = new THREE.Fog(0xffffff, 0, 1500);
+	//scene.fog = new THREE.Fog(0xffffff, 0, 1500);
 
 	// floor
 	var geometry = new THREE.PlaneGeometry(2000, 2000, 1, 1);
@@ -73,6 +72,8 @@ function setupScene() {
 
 	var mesh = new THREE.Mesh(geometry, material);
 	mesh.receiveShadow = true;
+
+	mesh.position.y = -10;
 
 	scene.add(mesh);
 
@@ -237,7 +238,6 @@ function setupControls() {
 	vrControls = new THREE.VRControls();
 
 	controls = new THREE.FPControls( camera );
-	controls.isOnObject(true);
 
 	controls.enabled = true;
 
